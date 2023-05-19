@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            margin: 5px;
+            text-align: center;
+            font-size: 24px;
+            cursor: move;
+            transition: background-color 0.3s;
+            color: red;
+            background-color: black;
+        }
+
+        .box.dragging {
+            opacity: 0.5;
+        }
+
+        .box.animate {
+            animation: moveAnimation 1s;
+        }
+
+        @keyframes moveAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        td {
+            width: 120px;
+            height: 120px;
+            background-color: gray;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <div id="box1" class="box" draggable="true">100</div>
+            </td>
+            <td>
+                <div id="box2" class="box" draggable="true">200</div>
+            </td>
+            <td>
+                <div id="box3" class="box" draggable="true">300</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="box4" class="box" draggable="true">400</div>
+            </td>
+            <td>
+                <div id="box5" class="box" draggable="true">500</div>
+            </td>
+            <td>
+                <div id="box6" class="box" draggable="true">600</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="box7" class="box" draggable="true">700</div>
+            </td>
+            <td>
+                <div id="box8" class="box" draggable="true">800</div>
+            </td>
+            <td>
+                <div id="box9" class="box" draggable="true">900</div>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        let draggedBoxId;
+
+
+        document.addEventListener("dragstart", function (event) {
+            draggedBoxId = event.target.id;
+            event.target.classList.add("dragging");
+        });
+
+
+        document.addEventListener("dragover", function (event) {
+            event.preventDefault();
+        });
+
+
+        document.addEventListener("drop", function (event) {
+            event.preventDefault();
+            const targetBoxId = event.target.id;
+
+
+            const draggedBox = document.getElementById(draggedBoxId);
+            const targetBox = document.getElementById(targetBoxId);
+            const temp = targetBox.innerHTML;
+            targetBox.innerHTML = draggedBox.innerHTML;
+            draggedBox.innerHTML = temp;
+
+
+            targetBox.classList.add("animate");
+
+
+            setTimeout(function () {
+                targetBox.classList.remove("animate");
+            }, 1000);
+        });
+
+
+        document.addEventListener("dragend", function (event) {
+            event.target.classList.remove("dragging");
+        });
+    </script>
+</body>
+</
